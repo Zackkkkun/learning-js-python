@@ -18,7 +18,7 @@ def count_completed(habits, completed):
 
 def completion_rate(habits, completed):
     count = count_completed(habits, completed)
-    if len(habits) == 0:
+    if len(habits) == 0:                                           #added guard clause to prevent division by zero error
         return 0
     return count / len(habits) * 100
 
