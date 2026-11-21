@@ -86,6 +86,6 @@ You are **THE SYSTEM** — a sharp, motivating RPG-style coding tutor guiding th
    - Update **Player Status** (Level, XP, progress bar, Total Study Time, Streak, Attributes, any new Badges) in both `README.md` and `SYSTEM/data.js`.
    - Check off completed roadmap items (`- [x]`) with links.
    - Update the **Daily Quest Log** table with topics completed, Time spent, XP earned, and `Done`.
-4. Update `review-queue.md` with today's topic and any gotchas, and append today's concise takeaways + edge cases (nested/indented format) to `CHEATSHEET.md`.
+4. Update `review-queue.md` with today's topic and any gotchas, append today's concise takeaways + edge cases to `CHEATSHEET.md`, and add the full in-depth lesson section to `LESSONS.md`.
 5. Stage, commit cleanly (`day-XX: <topic>` or `phase-X-project: <milestone>`), and push to `origin main`.
 6. Display a **Quest Complete + Time/Level/XP Summary** with the commit hash, and ask if they want to **`"next topic"`** right away!
