@@ -1,77 +1,93 @@
 """
-DAY 11 LESSON (ADVANCED DEPTH) — Sets, Hashing & Performance
+DAY 11 LESSON — Sets (Easy -> Advanced -> Industrial)
 Run: python day-11/sets_lesson.py
+
+ANALOGY: A set is a VIP guest list — no duplicates allowed, and the bouncer
+         checks if your name is on the list instantly.
+WHEN TO USE:     Removing duplicates, fast membership checks (`x in s`), set math.
+WHEN NOT TO USE: When order matters, duplicates matter, or you need indexing (`s[0]`).
+JS BRIDGE:       Python `set([1, 2, 2])` == JavaScript `new Set([1, 2, 2])`
 """
 import time
 
+
 # =========================================================
-# 1. UNDER THE HOOD: HASH TABLES & O(1) LOOKUP
+# LEVEL 1: EASY MODE (The Intuition — 30 Seconds)
 # =========================================================
-print("--- 1. PERFORMANCE: SET vs LIST ---")
+print("=== LEVEL 1: EASY MODE ===")
+guests = {"Ali", "Sara", "Zack"}
+guests.add("Adam")
+guests.add("Ali")       # Ignored! Sets never store duplicates
+guests.discard("Bob")   # Safe remove (no crash if Bob isn't there)
+
+print("Guest list:", guests)
+print("Is Sara invited?", "Sara" in guests)
+
+# Remove duplicates from a list in 1 line:
+emails = ["a@x.com", "b@x.com", "a@x.com"]
+unique_emails = set(emails)
+print("Unique emails:", unique_emails)
+
+
+# =========================================================
+# LEVEL 2: ADVANCED MODE (Under the Hood, Big-O & Traps)
+# =========================================================
+print("\n=== LEVEL 2: ADVANCED MODE ===")
+# GLOSSARY:
+#   O(1)      = instant lookup regardless of data size
+#   O(n)      = must scan item-by-item (slower as data grows)
+#   hashable  = has a fixed fingerprint (immutable: int, str, tuple, frozenset)
+
+# 1. Performance: List scan O(n) vs Set hash-table O(1)
 big_list = list(range(200_000))
 big_set = set(big_list)
 target = 199_999
 
 t0 = time.perf_counter()
-_ = target in big_list  # O(n): scans item by item
+_ = target in big_list
 t1 = time.perf_counter()
-_ = target in big_set   # O(1): jumps straight via hash!
+_ = target in big_set
 t2 = time.perf_counter()
+print(f"List O(n): {(t1 - t0)*1000:.3f} ms | Set O(1): {(t2 - t1)*1000:.4f} ms")
 
-print(f"List lookup: {(t1 - t0)*1000:.3f} ms | Set lookup: {(t2 - t1)*1000:.4f} ms")
+# 2. PREDICT BEFORE RUNNING: What is type({})?
+print("PREDICT type({}):", type({}), "| type(set()):", type(set()))
 
+# 3. Junior Way vs Senior Way (Order-preserving deduplication)
+tags = ["ai", "python", "ai", "sql"]
+# Junior way: loop + `if x not in seen: seen.append(x)`
+# Senior way: dict.fromkeys() keeps order AND deduplicates in O(n)!
+print("Senior ordered dedupe:", list(dict.fromkeys(tags)))
 
-# =========================================================
-# 2. HASHABILITY RULE & FROZENSET
-# =========================================================
-print("\n--- 2. HASHABILITY & FROZENSET ---")
-# Sets can ONLY hold immutable (hashable) items: int, str, tuple.
-valid_set = {(1, 2), "ok", 42}
-print("Set with tuple:", valid_set)
+# 4. Hashability & frozenset (immutable set)
+perms = frozenset({"read", "write"})
+role_lookup = {perms: "Editor"}
+print("frozenset as dict key:", role_lookup[frozenset({"write", "read"})])
 
-try:
-    bad_set = {[1, 2]}  # Lists are mutable -> unhashable!
-except TypeError as err:
-    print("List inside set crashed:", err)
-
-# frozenset: an immutable set (can be used inside another set or as a dict key!)
-perms_key = frozenset({"read", "write"})
-role_map = {perms_key: "Editor"}
-print("frozenset as dict key:", role_map[frozenset({"write", "read"})])
+# TRY BREAKING IT (uncomment next line to see TypeError: unhashable type):
+# bad = {[1, 2]}
 
 
 # =========================================================
-# 3. FULL SET ALGEBRA & SUBSET CHECKS
+# LEVEL 3: INDUSTRIAL MODE (Real Backend & AI Production)
 # =========================================================
-print("\n--- 3. SET ALGEBRA & SUBSETS ---")
-required = {"python", "sql"}
-candidate_a = {"python", "sql", "fastapi", "docker"}
-candidate_b = {"python", "react"}
+print("\n=== LEVEL 3: INDUSTRIAL MODE ===")
+# [USED IN: FastAPI RBAC Auth & RAG Document Chunk Deduplication]
 
-print("A meets all requirements (issuperset):", candidate_a >= required)
-print("Required subset of B:", required <= candidate_b)
-print("Union (|):", candidate_a | candidate_b)
-print("Intersection (&):", candidate_a & candidate_b)
-print("Difference (-):", candidate_a - candidate_b)
-print("Symmetric Diff (^, in one OR other, not both):", candidate_a ^ candidate_b)
+def check_access(user_perms: set[str], required_perms: frozenset[str]) -> tuple[bool, set[str]]:
+    """
+    Production RBAC (Role-Based Access Control) permission check.
+    Returns (is_allowed, missing_permissions).
+    """
+    missing = required_perms - user_perms
+    return (len(missing) == 0, missing)
 
+REQUIRED = frozenset({"read:docs", "write:db"})
+user_a = {"read:docs", "write:db", "delete:logs"}
+user_b = {"read:docs"}
 
-# =========================================================
-# 4. PRODUCTION EDGE CASES
-# =========================================================
-print("\n--- 4. EDGE CASES ---")
-# Trap 1: {} is an empty DICT, not an empty set!
-print("type({}):", type({}), "| type(set()):", type(set()))
+print("User A access:", check_access(user_a, REQUIRED))
+print("User B access:", check_access(user_b, REQUIRED))
 
-# Trap 2: Order-preserving deduplication (dict.fromkeys vs set)
-tags = ["ai", "python", "ai", "sql", "python"]
-print("set() loses order:", list(set(tags)))
-print("dict.fromkeys() keeps order:", list(dict.fromkeys(tags)))
-
-# Trap 3: remove() vs discard()
-s = {"a", "b"}
-s.discard("missing")  # Safe no-op
-try:
-    s.remove("missing")
-except KeyError as err:
-    print("remove() raised KeyError:", err)
+# FEYNMAN CHECK (answer in 1 sentence in your head):
+# -> Why can a tuple be inside a set, but a list cannot?
