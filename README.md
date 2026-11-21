@@ -2,6 +2,8 @@
 
 My 6-phase RPG journey from Python & software engineering foundations to full-stack and AI engineering — powered by **THE SYSTEM**.
 
+> **Active Sprint:** [8-Week Job-Ready Course Plan — Lane A (Python & AI-App Engineer)](COURSE_PLAN.md)
+
 ---
 
 ## Player Status
