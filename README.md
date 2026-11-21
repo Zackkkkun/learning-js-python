@@ -14,6 +14,7 @@ My 6-phase RPG journey from Python & software engineering foundations to full-st
 | :--- | :--- |
 | **Rank** | **D-Rank — Python Developer** *(Phase 2)* |
 | **Level** | **Lv. 4** (`1,500 / 2,000 XP` — `[███████░░░] 75%` to Lv. 5) |
+| **Total Study Time** | `0h 00m` logged *(8-Week Goal: `170h`)* |
 | **Current Streak** | 2 days (`2026-11-20` → `2026-11-21`) |
 | **Attributes** | `PY: 11` · `DEBUG: 5` · `GIT: 6` · `ARCH: 3` · `AI: 0` |
 
@@ -102,15 +103,15 @@ My 6-phase RPG journey from Python & software engineering foundations to full-st
 
 ## Daily Quest Log
 
-| Day | Folder | Quest / Topic | XP | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| Day 01 | [day-01](day-01) | Hello World, arrays/lists, functions, objects/dicts | +100 | Done |
-| Day 02 | [day-02](day-02) | Variables, type conversion, strings, operators, conditionals, loops | +100 | Done |
-| Day 03 | [day-03](day-03) | While loops, lists, dicts, sets, functions, error handling, file I/O | +100 | Done |
-| Day 04 | [day-04](day-04) | Classes and modules | +100 | Done |
-| Day 05–06 | [day-05](day-05), [day-06](day-06) | System missions | +200 | Done |
-| Day 07 | [day-07](day-07) | While loop revision, variable scope, function composition, guessing game | +100 | Done |
-| Day 08 | [day-08](day-08) | Phase 1 integrated SMS tasks (+Phase 1 Boss Clear) | +600 | Done |
-| Day 09 | [day-09](day-09) | SMS-Q6 & Phase 2 dictionaries intro | +100 | Done |
-| Day 10 | [day-10](day-10) | Dictionaries & dictionary operations, GitHub cleanup notes | +100 | Done |
-| Day 11 | [day-11](day-11) | Sets & set operations | — | Active Quest |
+| Day | Folder | Quest / Topic | Time | XP | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Day 01 | [day-01](day-01) | Hello World, arrays/lists, functions, objects/dicts | — | +100 | Done |
+| Day 02 | [day-02](day-02) | Variables, type conversion, strings, operators, conditionals, loops | — | +100 | Done |
+| Day 03 | [day-03](day-03) | While loops, lists, dicts, sets, functions, error handling, file I/O | — | +100 | Done |
+| Day 04 | [day-04](day-04) | Classes and modules | — | +100 | Done |
+| Day 05–06 | [day-05](day-05), [day-06](day-06) | System missions | — | +200 | Done |
+| Day 07 | [day-07](day-07) | While loop revision, variable scope, function composition, guessing game | — | +100 | Done |
+| Day 08 | [day-08](day-08) | Phase 1 integrated SMS tasks (+Phase 1 Boss Clear) | — | +600 | Done |
+| Day 09 | [day-09](day-09) | SMS-Q6 & Phase 2 dictionaries intro | — | +100 | Done |
+| Day 10 | [day-10](day-10) | Dictionaries & dictionary operations, GitHub cleanup notes | — | +100 | Done |
+| Day 11 | [day-11](day-11) | Sets & set operations | — | — | Active Quest |
