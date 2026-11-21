@@ -1,60 +1,58 @@
 """
-LESSON — Tuples & Strings in Action
-Run this file to see every concept working in real Python code:
-    python day-11/tuples_strings_lesson.py
+DAY 11 LESSON (ADVANCED DEPTH) — Tuples, Unpacking, Strings & Memory
+Run: python day-11/tuples_strings_lesson.py
 """
 
 # =========================================================
-# 1. TUPLES (Locked lists that cannot be modified)
+# 1. TUPLES: STAR UNPACKING & MUTABLE-INSIDE-IMMUTABLE TRAP
 # =========================================================
-print("--- 1. TUPLES ---")
-weapon = ("EPIC", {"iron", "dark_crystal"})
+print("--- 1. ADVANCED TUPLES ---")
+record = ("Zack", "D-Rank", 100, 150, 200)
+name, rank, *scores = record  # Star unpacking grabs remaining items as a list
+print(f"Name: {name}, Rank: {rank}, Scores: {scores}")
 
-# Unpacking: pulls each item into its own variable
-rarity, materials = weapon
-print("Rarity:", rarity)
-print("Materials:", materials)
+# Swap variables in 1 line without a temp variable (uses tuple packing/unpacking)
+a, b = 10, 99
+a, b = b, a
+print("Swapped:", a, b)
 
 # 1-item tuple trap:
-not_a_tuple = ("ZACK")
-real_tuple = ("ZACK",)   # Needs a trailing comma!
-print("Without comma:", type(not_a_tuple))  # <class 'str'>
-print("With comma:", type(real_tuple))      # <class 'tuple'>
+print("type(('ZACK')):", type(("ZACK")), "| type(('ZACK',)):", type(("ZACK",)))
 
-# Immutability: tuples cannot be changed after creation
-try:
-    real_tuple[0] = "ALI"
-except TypeError as err:
-    print("Cannot edit a tuple ->", err)
+# Subtle trap: a tuple locks REFERENCES, not mutable objects inside it!
+tricky = ("locked_str", [1, 2])
+tricky[1].append(3)  # Allowed! The list itself mutated, though the tuple slot didn't
+print("Mutable list inside tuple:", tricky)
 
 
 # =========================================================
-# 2. STRINGS (Cleaning & splitting text)
+# 2. STRINGS: SPLIT EDGE CASES & PERFORMANCE
 # =========================================================
-print("\n--- 2. STRINGS ---")
-raw = "   LOOT   iron   "
+print("\n--- 2. STRING PARSING & EDGE CASES ---")
+# Trap: .split() vs .split(",") on empty/whitespace strings!
+print("''.split() ->", "".split())          # []
+print("''.split(',') ->", "".split(","))    # ['']  <-- Watch out!
 
-cleaned = raw.strip().lower()  # Removes outer spaces + lowercases
-parts = cleaned.split()        # Splits on any spaces -> ["loot", "iron"]
-print("Cleaned:", repr(cleaned))
-print("Parts:", parts)
+# .partition() always returns a clean 3-tuple: (before, sep, after)
+header = "Authorization: Bearer tok_123"
+key, _, val = header.partition(": ")
+print(f"Key={key!r}, Val={val!r}")
 
-# Handling 0, 1, or 2 words safely:
-sample = "bag"
-words = sample.strip().lower().split()
-if len(words) == 0:
-    cmd = ("", "")
-elif len(words) == 1:
-    cmd = (words[0], "")
-else:
-    cmd = (words[0], words[1])
-print("Parsed 'bag' ->", cmd)
+# .startswith() accepts a TUPLE of prefixes (cleaner than multiple `or`s!)
+filename = "report_2026.csv"
+print("Is data file:", filename.endswith((".csv", ".json", ".parquet")))
+
+# Performance: Building big strings with "".join(parts) is O(n),
+# whereas += inside a large loop creates new string copies every time!
+words = ["  Python ", " FASTAPI", " ai "]
+cleaned = " | ".join(w.strip().lower() for w in words)
+print("Joined:", cleaned)
 
 
 # =========================================================
-# 3. F-STRINGS & SORTED SETS
+# 3. F-STRING FORMATTING SPECIFIERS
 # =========================================================
-print("\n--- 3. F-STRINGS & SORTED ---")
-missing = {"dark_crystal", "iron"}
-print(f"Missing: {sorted(missing)}")
-print(f"CRAFTED [{rarity}] shadow_blade!")
+print("\n--- 3. F-STRING SPECIFIERS ---")
+pi = 3.1415926
+xp = 1600
+print(f"Rounded: {pi:.2f} | Comma-formatted: {xp:,} | Padded: [{name:>8}]")
