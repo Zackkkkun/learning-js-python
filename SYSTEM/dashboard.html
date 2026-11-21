@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE SYSTEM — Command HUD</title>
+  <style>
+    :root {
+      --bg: #050811;
+      --panel: rgba(13, 21, 38, 0.88);
+      --border: rgba(0, 229, 255, 0.25);
+      --cyan: #00e5ff;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --gold: #facc15;
+      --green: #22c55e;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #0f1b38 0%, var(--bg) 65%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px 18px 60px;
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* Header */
+    .sys-banner {
+      border: 1px solid var(--cyan);
+      background: linear-gradient(90deg, rgba(0,229,255,0.12), rgba(59,130,246,0.06));
+      box-shadow: 0 0 28px rgba(0, 229, 255, 0.16);
+      border-radius: 12px;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .sys-title { font-size: 12px; letter-spacing: 3px; color: var(--cyan); font-weight: 700; }
+    .player-name { font-size: 26px; font-weight: 800; margin-top: 4px; }
+    .rank-pill {
+      background: linear-gradient(135deg, #1d4ed8, #0891b2);
+      border: 1px solid var(--cyan);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.35);
+    }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab-btn {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+      padding: 9px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      border-color: var(--cyan);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Grid & Cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .card h2 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      margin-bottom: 14px;
+    }
+
+    /* XP Bar */
+    .xp-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .level-num { font-size: 30px; font-weight: 800; color: #fff; }
+    .xp-text { color: var(--muted); font-size: 14px; }
+    .bar-track {
+      height: 14px;
+      background: #0b1222;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 14px;
+    }
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      box-shadow: 0 0 14px var(--cyan);
+      transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .mini-stats { display: flex; gap: 10px; flex-wrap: wrap; }
+    .mini-chip {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 8px;
+      padding: 8px 12px;
+      flex: 1;
+      min-width: 100px;
+    }
+    .mini-chip span { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; }
+    .mini-chip strong { font-size: 15px; color: #fff; }
+
+    /* Attributes */
+    .attr-list { display: grid; gap: 10px; }
+    .attr-item {
+      display: grid;
+      grid-template-columns: 72px 1fr 34px;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .attr-bar { height: 8px; background: #0b1222; border-radius: 999px; overflow: hidden; }
+    .attr-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--cyan)); border-radius: 999px; }
+
+    /* Active Quest */
+    .quest-box {
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.08), rgba(13, 21, 38, 0.92));
+    }
+    .quest-box h2 { color: var(--gold); }
+    .quest-title { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+    .quest-desc { color: var(--muted); font-size: 14px; line-height: 1.5; margin-bottom: 12px; }
+    .quest-reward {
+      display: inline-block;
+      background: rgba(250, 204, 21, 0.15);
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      color: var(--gold);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* Timer */
+    .timer-display {
+      font-size: 46px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      font-variant-numeric: tabular-nums;
+      color: var(--cyan);
+      margin: 10px 0 16px;
+    }
+    .btn {
+      background: rgba(0, 229, 255, 0.14);
+      border: 1px solid var(--cyan);
+      color: #fff;
+      padding: 9px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      margin-right: 8px;
+    }
+    .btn:hover { background: rgba(0, 229, 255, 0.28); }
+    .btn.secondary { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); }
+
+    /* Skill Tree */
+    .phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .phase {
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+    .phase.done { border-color: rgba(34, 197, 94, 0.45); background: rgba(34, 197, 94, 0.08); }
+    .phase.current { border-color: var(--cyan); box-shadow: 0 0 18px rgba(0, 229, 255, 0.15); }
+    .phase-tag { font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; }
+    .done .phase-tag { color: var(--green); }
+    .current .phase-tag { color: var(--cyan); }
+    .locked .phase-tag { color: var(--muted); }
+    .phase-name { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .topic-list { list-style: none; font-size: 13px; color: var(--muted); display: grid; gap: 4px; }
+
+    /* Badges & Commands */
+    .badges { display: flex; flex-wrap: wrap; gap: 10px; }
+    .badge {
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      font-size: 13px;
+    }
+    .badge small { display: block; color: var(--muted); font-size: 11px; margin-top: 2px; }
+    .cmd-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .cmd-table th, .cmd-table td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .cmd-table th { color: var(--cyan); font-size: 12px; text-transform: uppercase; }
+    code { background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 4px; color: var(--cyan); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sys-banner">
+      <div>
+        <div class="sys-title">[ THE SYSTEM ] — COMMAND HUD</div>
+        <div class="player-name" id="playerName">Zackkkkun</div>
+      </div>
+      <div class="rank-pill" id="rankPill">D-RANK</div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('hud', this)">Player HUD</button>
+      <button class="tab-btn" onclick="switchTab('tree', this)">6-Phase Skill Tree</button>
+      <button class="tab-btn" onclick="switchTab('timer', this)">Focus Timer</button>
+      <button class="tab-btn" onclick="switchTab('cmds', this)">System Commands</button>
+    </div>
+
+    <!-- TAB 1: PLAYER HUD -->
+    <div id="tab-hud" class="tab-panel active">
+      <div class="grid">
+        <div class="card">
+          <h2>Level &amp; Progression</h2>
+          <div class="xp-row">
+            <div class="level-num" id="levelNum">Lv. 4</div>
+            <div class="xp-text" id="xpText">1,500 / 2,000 XP</div>
+          </div>
+          <div class="bar-track"><div class="bar-fill" id="xpBar"></div></div>
+          <div class="mini-stats">
+            <div class="mini-chip"><span>Streak</span><strong id="streakVal">2 Days</strong></div>
+            <div class="mini-chip"><span>Study Time</span><strong id="timeVal">0h 00m</strong></div>
+            <div class="mini-chip"><span>8-Week Goal</span><strong id="goalVal">170h</strong></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Skill Attributes</h2>
+          <div class="attr-list" id="attrList"></div>
+        </div>
+
+        <div class="card quest-box">
+          <h2>Active Quest</h2>
+          <div class="quest-title" id="questTitle">Loading...</div>
+          <div class="quest-desc" id="questDesc"></div>
+          <span class="quest-reward" id="questReward"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Unlocked Badges</h2>
+        <div class="badges" id="badgeList"></div>
+      </div>
+    </div>
+
+    <!-- TAB 2: SKILL TREE -->
+    <div id="tab-tree" class="tab-panel">
+      <div class="card">
+        <h2>6-Phase Skill Tree</h2>
+        <div class="phases" id="phaseTree"></div>
+      </div>
+    </div>
+
+    <!-- TAB 3: FOCUS TIMER -->
+    <div id="tab-timer" class="tab-panel">
+      <div class="card">
+        <h2>Quest Focus Timer</h2>
+        <p style="color: var(--muted); font-size: 14px;">Track your live session time here. When done, say <code>"finish topic"</code> in chat to log it to GitHub!</p>
+        <div class="timer-display" id="timerDisplay">00:00:00</div>
+        <button class="btn" onclick="startTimer()">Start</button>
+        <button class="btn secondary" onclick="pauseTimer()">Pause</button>
+        <button class="btn secondary" onclick="resetTimer()">Reset</button>
+      </div>
+    </div>
+
+    <!-- TAB 4: COMMANDS -->
+    <div id="tab-cmds" class="tab-panel">
+      <div class="card">
+        <h2>THE SYSTEM — Chat Commands</h2>
+        <table class="cmd-table">
+          <thead><tr><th>Say in Chat</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><code>"next topic"</code> / <code>"start"</code></td><td>Start the next roadmap topic (logs start time + creates quest)</td></tr>
+            <tr><td><code>"check my code"</code></td><td>Runs your code, checks edge cases, gives hints</td></tr>
+            <tr><td><code>"give me a hint"</code></td><td>Next step on the 3-Step Hint Ladder (no spoilers)</td></tr>
+            <tr><td><code>"quiz me"</code></td><td>3-question Arena Trial (+40 XP)</td></tr>
+            <tr><td><code>"start phase project"</code></td><td>Launch the current Phase Boss Raid (+500 XP)</td></tr>
+            <tr><td><code>"finish topic"</code></td><td>Logs time, updates README, CHEATSHEET, SYSTEM HUD &amp; pushes to GitHub</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script>
+    const d = window.SYSTEM_DATA;
+    document.getElementById("playerName").textContent = d.player;
+    document.getElementById("rankPill").textContent = d.rank;
+    document.getElementById("levelNum").textContent = `Lv. ${d.level}`;
+
+    const levelBase = (d.level - 1) * d.xpPerLevel;
+    const nextCap = d.level * d.xpPerLevel;
+    const pct = Math.min(100, Math.round(((d.xp - levelBase) / d.xpPerLevel) * 100));
+    document.getElementById("xpText").textContent = `${d.xp.toLocaleString()} / ${nextCap.toLocaleString()} XP (${pct}%)`;
+    setTimeout(() => { document.getElementById("xpBar").style.width = `${pct}%`; }, 150);
+
+    const hrs = Math.floor(d.studyMinutes / 60);
+    const mins = d.studyMinutes % 60;
+    document.getElementById("streakVal").textContent = `${d.streakDays} Days`;
+    document.getElementById("timeVal").textContent = `${hrs}h ${String(mins).padStart(2, "0")}m`;
+    document.getElementById("goalVal").textContent = `${d.goalHours}h`;
+
+    document.getElementById("questTitle").textContent = d.activeQuest.title;
+    document.getElementById("questDesc").innerHTML = `File: <code>${d.activeQuest.file}</code><br>${d.activeQuest.description}`;
+    document.getElementById("questReward").textContent = `+${d.activeQuest.rewardXP} XP`;
+
+    const attrEl = document.getElementById("attrList");
+    Object.entries(d.attributes).forEach(([k, v]) => {
+      const w = Math.min(100, v * 5);
+      attrEl.innerHTML += `<div class="attr-item"><strong>${k}</strong><div class="attr-bar"><div class="attr-fill" style="width:${w}%"></div></div><span>${v}</span></div>`;
+    });
+
+    const badgeEl = document.getElementById("badgeList");
+    d.badges.forEach(b => {
+      badgeEl.innerHTML += `<div class="badge"><strong>${b.name}</strong><small>${b.desc}</small></div>`;
+    });
+
+    const treeEl = document.getElementById("phaseTree");
+    d.phases.forEach(p => {
+      const statusLabel = p.status === "done" ? "CLEARED" : p.status === "current" ? "ACTIVE" : "LOCKED";
+      const items = p.topics.map(t => `<li>• ${t}</li>`).join("");
+      treeEl.innerHTML += `
+        <div class="phase ${p.status}">
+          <div class="phase-tag">${p.rank} · ${statusLabel}</div>
+          <div class="phase-name">Phase ${p.id}: ${p.name}</div>
+          <ul class="topic-list">${items}</ul>
+        </div>`;
+    });
+
+    function switchTab(id, btn) {
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.getElementById("tab-" + id).classList.add("active");
+      btn.classList.add("active");
+    }
+
+    let seconds = Number(localStorage.getItem("sys_timer_sec") || 0);
+    let interval = null;
+    function renderTimer() {
+      const h = String(Math.floor(seconds / 3600)).padStart(2, "0");
+      const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+      const s = String(seconds % 60).padStart(2, "0");
+      document.getElementById("timerDisplay").textContent = `${h}:${m}:${s}`;
+    }
+    function startTimer() {
+      if (interval) return;
+      interval = setInterval(() => {
+        seconds++;
+        localStorage.setItem("sys_timer_sec", seconds);
+        renderTimer();
+      }, 1000);
+    }
+    function pauseTimer() { clearInterval(interval); interval = null; }
+    function resetTimer() { pauseTimer(); seconds = 0; localStorage.setItem("sys_timer_sec", 0); renderTimer(); }
+    renderTimer();
+  </script>
+</body>
+</html>
