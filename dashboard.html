@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE SYSTEM — Player Dashboard</title>
+  <style>
+    :root {
+      --bg: #060913;
+      --panel: rgba(13, 21, 38, 0.85);
+      --border: rgba(0, 229, 255, 0.28);
+      --cyan: #00e5ff;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --gold: #facc15;
+      --green: #22c55e;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #0f1b38 0%, var(--bg) 65%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 28px 20px 60px;
+    }
+    .container { max-width: 1080px; margin: 0 auto; }
+
+    /* System Header */
+    .sys-banner {
+      border: 1px solid var(--cyan);
+      background: linear-gradient(90deg, rgba(0,229,255,0.12), rgba(59,130,246,0.06));
+      box-shadow: 0 0 28px rgba(0, 229, 255, 0.16);
+      border-radius: 12px;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .sys-title {
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .player-name {
+      font-size: 26px;
+      font-weight: 800;
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+    .rank-pill {
+      background: linear-gradient(135deg, #1d4ed8, #0891b2);
+      border: 1px solid var(--cyan);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.35);
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .card h2 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      margin-bottom: 14px;
+    }
+
+    /* XP Bar */
+    .xp-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .level-num { font-size: 30px; font-weight: 800; color: #fff; }
+    .xp-text { color: var(--muted); font-size: 14px; }
+    .bar-track {
+      height: 14px;
+      background: #0b1222;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 14px;
+    }
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      box-shadow: 0 0 14px var(--cyan);
+      transition: width 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .mini-stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .mini-chip {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+      flex: 1;
+      min-width: 110px;
+    }
+    .mini-chip span { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; }
+    .mini-chip strong { font-size: 16px; color: #fff; }
+
+    /* Attributes */
+    .attr-list { display: grid; gap: 10px; }
+    .attr-item {
+      display: grid;
+      grid-template-columns: 72px 1fr 34px;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+    }
+    .attr-bar {
+      height: 8px;
+      background: #0b1222;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .attr-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--purple), var(--cyan));
+      border-radius: 999px;
+    }
+
+    /* Active Quest */
+    .quest-box {
+      border: 1px solid rgba(250, 204, 21, 0.4);
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.08), rgba(13, 21, 38, 0.9));
+    }
+    .quest-box h2 { color: var(--gold); }
+    .quest-title { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+    .quest-desc { color: var(--muted); font-size: 14px; line-height: 1.5; margin-bottom: 12px; }
+    .quest-reward {
+      display: inline-block;
+      background: rgba(250, 204, 21, 0.15);
+      border: 1px solid rgba(250, 204, 21, 0.45);
+      color: var(--gold);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* Skill Tree */
+    .phases {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .phase {
+      border-radius: 10px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+    .phase.done { border-color: rgba(34, 197, 94, 0.45); background: rgba(34, 197, 94, 0.08); }
+    .phase.current { border-color: var(--cyan); box-shadow: 0 0 18px rgba(0, 229, 255, 0.15); }
+    .phase-tag { font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; }
+    .done .phase-tag { color: var(--green); }
+    .current .phase-tag { color: var(--cyan); }
+    .locked .phase-tag { color: var(--muted); }
+    .phase-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .phase-sub { font-size: 12px; color: var(--muted); }
+
+    /* Badges */
+    .badges { display: flex; flex-wrap: wrap; gap: 10px; }
+    .badge {
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      font-size: 13px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sys-banner">
+      <div>
+        <div class="sys-title">[ THE SYSTEM ] — PLAYER STATUS</div>
+        <div class="player-name">Zackkkkun</div>
+      </div>
+      <div class="rank-pill">D-RANK · PYTHON DEVELOPER</div>
+    </div>
+
+    <div class="grid">
+      <!-- Level & XP -->
+      <div class="card">
+        <h2>Level &amp; Progression</h2>
+        <div class="xp-row">
+          <div class="level-num">Lv. 4</div>
+          <div class="xp-text">1,500 / 2,000 XP (75%)</div>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="xpBar"></div></div>
+        <div class="mini-stats">
+          <div class="mini-chip"><span>Streak</span><strong>2 Days</strong></div>
+          <div class="mini-chip"><span>Study Time</span><strong>0h 00m / 170h</strong></div>
+          <div class="mini-chip"><span>Target</span><strong>Python &amp; AI</strong></div>
+        </div>
+      </div>
+
+      <!-- Attributes -->
+      <div class="card">
+        <h2>Skill Attributes</h2>
+        <div class="attr-list">
+          <div class="attr-item"><strong>PY</strong><div class="attr-bar"><div class="attr-fill" style="width: 55%"></div></div><span>11</span></div>
+          <div class="attr-item"><strong>DEBUG</strong><div class="attr-bar"><div class="attr-fill" style="width: 25%"></div></div><span>5</span></div>
+          <div class="attr-item"><strong>GIT</strong><div class="attr-bar"><div class="attr-fill" style="width: 30%"></div></div><span>6</span></div>
+          <div class="attr-item"><strong>ARCH</strong><div class="attr-bar"><div class="attr-fill" style="width: 15%"></div></div><span>3</span></div>
+          <div class="attr-item"><strong>AI / ML</strong><div class="attr-bar"><div class="attr-fill" style="width: 5%"></div></div><span>0</span></div>
+        </div>
+      </div>
+
+      <!-- Active Quest -->
+      <div class="card quest-box">
+        <h2>Active Quest</h2>
+        <div class="quest-title">Build Your Own System Engine (v0.1)</div>
+        <div class="quest-desc">
+          Open <code>system-app/engine.py</code> and wire up the Loot Inventory &amp; Command Parser using Sets, Tuples, and Strings.
+        </div>
+        <span class="quest-reward">+150 XP · Unlock: Engine v0.1</span>
+      </div>
+    </div>
+
+    <!-- 6-Phase Skill Tree -->
+    <div class="card" style="margin-bottom: 22px;">
+      <h2>6-Phase Skill Tree</h2>
+      <div class="phases">
+        <div class="phase done">
+          <div class="phase-tag">E-RANK · CLEARED</div>
+          <div class="phase-name">Phase 1</div>
+          <div class="phase-sub">Python Foundations</div>
+        </div>
+        <div class="phase current">
+          <div class="phase-tag">D-RANK · ACTIVE</div>
+          <div class="phase-name">Phase 2</div>
+          <div class="phase-sub">Python Developer</div>
+        </div>
+        <div class="phase locked">
+          <div class="phase-tag">C-RANK · LOCKED</div>
+          <div class="phase-name">Phase 3</div>
+          <div class="phase-sub">SWE Workflow &amp; SQL</div>
+        </div>
+        <div class="phase locked">
+          <div class="phase-tag">B-RANK · LOCKED</div>
+          <div class="phase-name">Phase 4</div>
+          <div class="phase-sub">FastAPI &amp; Clean UI</div>
+        </div>
+        <div class="phase locked">
+          <div class="phase-tag">A-RANK · LOCKED</div>
+          <div class="phase-name">Phase 5</div>
+          <div class="phase-sub">AI, RAG &amp; Agents</div>
+        </div>
+        <div class="phase locked">
+          <div class="phase-tag">S-RANK · LOCKED</div>
+          <div class="phase-name">Phase 6</div>
+          <div class="phase-sub">Deploy &amp; Job Launch</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="card">
+      <h2>Unlocked Badges</h2>
+      <div class="badges">
+        <div class="badge">First Blood</div>
+        <div class="badge">Phase 1 Clear</div>
+        <div class="badge">Clean History</div>
+        <div class="badge">System Awakened</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      document.getElementById('xpBar').style.width = '75%';
+    }, 150);
+  </script>
+</body>
+</html>
