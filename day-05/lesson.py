@@ -24,6 +24,12 @@ def calculate_discount(price: float, member: bool) -> float:
 print("Member ($100):", calculate_discount(100, True))
 print("Bad price (-5):", calculate_discount(-5, True))
 
+# Function Parameter Types: positional, keyword, *args, **kwargs
+def log_event(event: str, *tags: str, **meta: str) -> None:
+    print(f"Event={event} | *tags={tags} | **meta={meta}")
+
+log_event("login", "web", "fast", user="zack", role="dev")
+
 
 # =========================================================
 # LEVEL 2: ADVANCED MODE (The Mutable Default Argument Trap)

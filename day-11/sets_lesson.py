@@ -20,7 +20,15 @@ guests.add("Adam")
 guests.add("Ali")       # Ignored! Sets never store duplicates
 guests.discard("Bob")   # Safe remove (no crash if Bob isn't there)
 
-print("Guest list:", guests)
+# Core Set Operations:
+#   .add(x)        -> add 1 item
+#   .update([...]) -> add multiple items at once
+#   .discard(x)    -> safe remove (no crash if missing)
+#   .remove(x)     -> remove (crashes with KeyError if missing)
+#   .pop()         -> removes & returns an arbitrary item
+#   .clear()       -> empties the set
+guests.update(["Mika", "John"])
+print("After .update():", guests)
 print("Is Sara invited?", "Sara" in guests)
 
 # Remove duplicates from a list in 1 line:

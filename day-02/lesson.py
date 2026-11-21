@@ -17,7 +17,17 @@ print("=== LEVEL 1: EASY MODE ===")
 age = int("25")
 print("Next year:", age + 1)
 
-for step in range(1, 4):
+# Core Math & Logic Operators:
+#   /  true division (7 / 2 = 3.5)    // floor division (7 // 2 = 3)
+#   %  modulo/remainder (7 % 2 = 1)   ** power (2 ** 3 = 8)
+#   in / not in  membership check     and / or / not  boolean logic
+print("7 // 2 =", 7 // 2, "| 7 % 2 =", 7 % 2, "| 2 ** 3 =", 2 ** 3)
+
+for step in range(1, 6):
+    if step == 2:
+        continue  # Skip step 2
+    if step == 5:
+        break     # Stop loop early
     print("Step:", step)
 
 # PREDICT BEFORE RUNNING: What does `bool("")` and `bool("0")` print?

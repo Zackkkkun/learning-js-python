@@ -18,6 +18,9 @@ print("=== LEVEL 1: EASY MODE ===")
 inventory = {"potion": 3, "iron": 5}
 print("Potions:", inventory.get("potion", 0))
 print("Arrows (missing):", inventory.get("arrow", 0))
+# .setdefault(k, val): gets k if present, otherwise sets inventory[k] = val!
+inventory.setdefault("shield", 1)
+print("After setdefault:", inventory)
 
 for item, qty in inventory.items():
     print(f"  - {item}: {qty}")

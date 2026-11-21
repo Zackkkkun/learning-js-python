@@ -18,7 +18,16 @@ print("=== LEVEL 1: EASY MODE ===")
 student = {"name": "Zack", "phase": 2, "xp": 1600}
 student["xp"] += 100
 student["rank"] = "D-Rank"
-print("Student:", student)
+
+# Core Dictionary Operations:
+#   .keys()    -> all keys        .values() -> all values
+#   .items()   -> (key, value)    .update() -> merge/overwrite multiple keys
+#   .pop(k, d) -> remove & return (safe with default `d`)
+#   k in dict  -> O(1) key check
+student.update({"streak": 2, "active": True})
+removed = student.pop("missing_key", None)
+print("Keys:", list(student.keys()), "| Values:", list(student.values()))
+print("Student:", student, "| Safe pop:", removed)
 
 
 # =========================================================

@@ -20,6 +20,12 @@ print("Passed:", passed)
 print("Anyone scored 90+?:", any(s >= 90 for s in scores))
 print("Everyone passed?:", all(s >= 60 for s in scores))
 
+# Core Sequence Helpers: sorted(), zip(), min(), max(), sum()
+names = ["Zack", "Sara", "Ali"]
+print("Sorted desc:", sorted(scores, reverse=True))
+print("Min/Max/Sum:", min(scores), max(scores), sum(scores))
+print("Zipped pairs:", list(zip(names, scores)))
+
 
 # =========================================================
 # LEVEL 2: ADVANCED MODE (Generators & Vacuous Truth Trap)

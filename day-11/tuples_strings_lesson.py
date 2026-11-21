@@ -19,10 +19,20 @@ weapon = ("Shadow Blade", "EPIC", 45)
 name, rarity, power = weapon
 print(f"Item: {name} | Rarity: {rarity} | Power: {power}")
 
-# String cleaning pipeline
+# String cleaning pipeline (each method explained!)
 raw = "   LOOT  iron   "
-parts = raw.strip().lower().split()
-print("Cleaned parts:", parts)
+print("1. .strip() ->", repr(raw.strip()))            # Removes spaces on BOTH ends
+print("2. .lstrip() ->", repr(raw.lstrip()))          # Left spaces only
+print("3. .rstrip() ->", repr(raw.rstrip()))          # Right spaces only
+print("4. .lower() ->", repr(raw.strip().lower()))    # All lowercase
+print("5. .upper() ->", repr(raw.strip().upper()))    # ALL UPPERCASE
+print("6. .title() ->", repr("zack kun".title()))     # "Zack Kun"
+print("7. .split() ->", raw.strip().lower().split())  # Splits into list of words
+print("8. .replace() ->", "hi_ai".replace("_", " "))  # Replaces text
+print("9. .find() ->", "hello".find("e"), "| missing:", "hello".find("z"))  # Index or -1
+print("10. .isdigit() ->", "123".isdigit(), "| .isalpha() ->", "abc".isalpha())
+print("11. slicing [::-1] ->", "python"[::-1])        # Reverses string: "nohtyp"
+print("12. tuple .count()/.index() ->", (1, 2, 2).count(2), (10, 20, 30).index(20))
 
 # PREDICT BEFORE RUNNING: What type is ("ZACK") vs ("ZACK",)?
 print("No comma:", type(("ZACK")), "| With comma:", type(("ZACK",)))

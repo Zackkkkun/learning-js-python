@@ -16,7 +16,14 @@ print("=== LEVEL 1: EASY MODE ===")
 name = "Zack"
 level = 1
 skills = ["Python", "Git"]
-skills.append("AI")
+# Core List Operations:
+skills.append("AI")          # Add 1 item to end
+skills.insert(1, "SQL")      # Insert at index 1
+skills.extend(["JS", "TS"])  # Add multiple items
+popped = skills.pop()        # Remove & return last item ("TS")
+skills.remove("SQL")         # Remove first matching value
+print("Skills:", skills, "| Popped:", popped, "| Count AI:", skills.count("AI"))
+print("Slicing [0:2]:", skills[0:2], "| Reversed [::-1]:", skills[::-1])
 
 def greet(player: str) -> str:
     return f"Welcome, {player}!"
