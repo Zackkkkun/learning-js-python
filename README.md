@@ -13,10 +13,10 @@ My 6-phase RPG journey from Python & software engineering foundations to full-st
 | Stat | Value |
 | :--- | :--- |
 | **Rank** | **D-Rank — Python Developer** *(Phase 2)* |
-| **Level** | **Lv. 4** (`1,500 / 2,000 XP` — `[███████░░░] 75%` to Lv. 5) |
-| **Total Study Time** | `0h 00m` logged *(8-Week Goal: `170h`)* |
+| **Level** | **Lv. 4** (`1,600 / 2,000 XP` — `[████████░░] 80%` to Lv. 5) |
+| **Total Study Time** | `0h 20m` logged *(8-Week Goal: `170h`)* |
 | **Current Streak** | 2 days (`2026-11-20` → `2026-11-21`) |
-| **Attributes** | `PY: 11` · `DEBUG: 5` · `GIT: 6` · `ARCH: 3` · `AI: 0` |
+| **Attributes** | `PY: 12` · `DEBUG: 5` · `GIT: 6` · `ARCH: 3` · `AI: 0` |
 
 ### Unlocked Badges
 - `First Blood` — Completed Day 01
@@ -39,8 +39,8 @@ My 6-phase RPG journey from Python & software engineering foundations to full-st
 
 ### Phase 2 — Python Developer Foundations `[D-RANK: CURRENT]`
 - [x] Dictionaries ([day-09](day-09), [day-10](day-10))
-- [ ] Sets ([day-11](day-11) — in progress)
-- [ ] Tuples and strings
+- [x] Sets ([day-11](day-11))
+- [ ] Tuples and strings ([system-app/engine.py](system-app/engine.py) — in progress)
 - [ ] List/dictionary comprehensions
 - [ ] Modules and packages
 - [ ] File handling (TXT, CSV, JSON)
@@ -114,4 +114,4 @@ My 6-phase RPG journey from Python & software engineering foundations to full-st
 | Day 08 | [day-08](day-08) | Phase 1 integrated SMS tasks (+Phase 1 Boss Clear) | — | +600 | Done |
 | Day 09 | [day-09](day-09) | SMS-Q6 & Phase 2 dictionaries intro | — | +100 | Done |
 | Day 10 | [day-10](day-10) | Dictionaries & dictionary operations, GitHub cleanup notes | — | +100 | Done |
-| Day 11 | [day-11](day-11) | Sets & set operations | — | — | Active Quest |
+| Day 11 | [day-11](day-11) | Sets & set operations | 20m | +100 | Done |

@@ -3,13 +3,13 @@ window.SYSTEM_DATA = {
   player: "Zackkkkun",
   rank: "D-RANK · PYTHON DEVELOPER",
   level: 4,
-  xp: 1500,
+  xp: 1600,
   xpPerLevel: 500,
   streakDays: 2,
-  studyMinutes: 0,
+  studyMinutes: 20,
   goalHours: 170,
   attributes: {
-    PY: 11,
+    PY: 12,
     DEBUG: 5,
     GIT: 6,
     ARCH: 3,
@@ -40,7 +40,7 @@ window.SYSTEM_DATA = {
       rank: "D-RANK",
       name: "Python Developer",
       status: "current",
-      topics: ["Dictionaries (Done)", "Sets (In Progress)", "Tuples & Strings", "Comprehensions", "Modules & venv", "File I/O (CSV/JSON)", "OOP", "pytest & Clean Code", "Boss: Personal Tracker"]
+      topics: ["Dictionaries (Done)", "Sets (Done)", "Tuples & Strings (Active)", "Comprehensions", "Modules & venv", "File I/O (CSV/JSON)", "OOP", "pytest & Clean Code", "Boss: Personal Tracker"]
     },
     {
       id: 3,
