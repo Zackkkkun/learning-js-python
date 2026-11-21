@@ -1,21 +1,30 @@
 """
-DAY 10 LESSON — Dictionary Operations & Edge Cases
+DAY 10 LESSON (ADVANCED DEPTH) — Dict Internals, Safe Access & Mutation Trap
 Run: python day-10/lesson.py
 """
+from collections import defaultdict
 
-print("--- DICTIONARY OPERATIONS ---")
+# =========================================================
+# 1. SAFE LOOKUP: .get() vs .setdefault() vs defaultdict
+# =========================================================
+print("--- 1. SAFE DICT PATTERNS ---")
 inventory = {"potion": 3, "iron": 5}
+print("Arrows (safe):", inventory.get("arrow", 0))
 
-# 1. Safe lookup with .get() (no KeyError!)
-print("Potions:", inventory.get("potion", 0))
-print("Arrows (missing):", inventory.get("arrow", 0))
+# Grouping items cleanly with defaultdict(list):
+grouped: dict[str, list[str]] = defaultdict(list)
+for role, name in [("ai", "Zack"), ("backend", "Ali"), ("ai", "Sara")]:
+    grouped[role].append(name)
+print("Grouped:", dict(grouped))
 
-try:
-    _ = inventory["arrow"]
-except KeyError as err:
-    print("Direct lookup crashed with KeyError:", err)
 
-# 2. Looping over keys and values with .items()
-print("\nInventory items:")
-for item, qty in inventory.items():
-    print(f"  - {item}: {qty}")
+# =========================================================
+# 2. EDGE CASE: MUTATING A DICT WHILE ITERATING
+# =========================================================
+print("\n--- 2. ITERATION MUTATION TRAP ---")
+scores = {"a": 10, "b": 0, "c": 25}
+
+# Never delete keys directly while looping over `scores`!
+# Iterate over `list(scores.keys())` or build a new dict:
+cleaned = {k: v for k, v in scores.items() if v > 0}
+print("Filtered dict:", cleaned)

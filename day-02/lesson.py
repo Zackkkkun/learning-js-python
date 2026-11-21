@@ -1,36 +1,41 @@
 """
-DAY 02 LESSON — Types, Conversion, Strings, Operators, Conditionals & Loops
+DAY 02 LESSON (ADVANCED DEPTH) — Types, Precision, Truthiness & Loops
 Run: python day-02/lesson.py
 """
+from decimal import Decimal
 
-# 1. Types & Conversion
-print("--- 1. TYPE CONVERSION ---")
-raw_age = "25"
-age = int(raw_age)
-print("25 + 5 =", age + 5)
+# =========================================================
+# 1. TYPE CONVERSION & FLOAT PRECISION
+# =========================================================
+print("--- 1. TYPE CONVERSION & FLOAT TRAP ---")
+print("0.1 + 0.2 in float:", 0.1 + 0.2)  # Binary float rounding!
+print("Exact Decimal:", Decimal("0.1") + Decimal("0.2"))
 
 try:
-    bad = int("abc")
+    _ = int("3.14")  # Crashes even though it looks numeric!
 except ValueError as err:
-    print("Edge case (bad int):", err)
+    print("int('3.14') crashed:", err)
 
-# 2. Operators & Conditionals
-print("\n--- 2. CONDITIONALS ---")
-score = 85
-if score >= 90:
-    grade = "A"
-elif score >= 75:
-    grade = "B"
-else:
-    grade = "C"
-print(f"Score {score} -> Grade {grade}")
 
-# 3. Loops (for & while)
-print("\n--- 3. LOOPS ---")
-for i in range(1, 4):
-    print("for step:", i)
+# =========================================================
+# 2. TRUTHINESS & SHORT-CIRCUIT LOGIC
+# =========================================================
+print("\n--- 2. TRUTHINESS & FALLBACKS ---")
+# Falsy values: False, None, 0, "", [], {}, set(), ()
+raw_name = ""
+display_name = raw_name or "Guest"  # Short-circuits to "Guest"
+print("Fallback name:", display_name)
 
-count = 3
-while count > 0:
-    print("while countdown:", count)
-    count -= 1  # Always update exit condition!
+
+# =========================================================
+# 3. PYTHONIC LOOPS (ENUMERATE & MUTATION TRAP)
+# =========================================================
+print("\n--- 3. LOOPS & MUTATION TRAP ---")
+items = ["a", "b", "c"]
+for idx, val in enumerate(items, start=1):
+    print(f"  {idx}. {val}")
+
+# Never remove from a list while looping over it! Build a new list instead:
+nums = [1, 2, 3, 4, 5, 6]
+evens = [n for n in nums if n % 2 == 0]
+print("Filtered evens:", evens)
