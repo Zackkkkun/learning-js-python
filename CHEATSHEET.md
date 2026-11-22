@@ -127,6 +127,23 @@ A simple, easy-to-read guide of everything I’ve learned — with **topics**, *
      - **Empty set trap:** `{}` creates an empty **dictionary**, NOT an empty set. Always use `set()`.
      - **No indexing:** Sets are unordered, so `my_set[0]` crashes with `TypeError`. Convert with `list(my_set)` if you need order.
 
+8. **Tuples (`tuple`) & Strings (`str`)**
+   - **In simple words:** Tuples are locked lists `("EPIC", 45)`. Strings are immutable text—methods return a **new** string.
+   - **Example:**
+     ```python
+     # 1-item tuple needs a trailing comma!
+     badge = ("ZACK",)
+
+     # Clean, split, deduplicate, sort, and join:
+     raw = "  Python, AI , python "
+     tags = sorted({t.strip().lower() for t in raw.split(",") if t.strip()})
+     print(" | ".join(tags))  # "ai | python"
+     ```
+   - **Engineering Edge Cases:**
+     - `("ZACK")` is a `str`; `("ZACK",)` is a `tuple`.
+     - `.split()` splits on spaces; `.split(",")` splits on commas.
+     - `"".split()` returns `[]`, whereas `"".split(",")` returns `[""]`.
+
 ---
 
 ## Engineering & GitHub

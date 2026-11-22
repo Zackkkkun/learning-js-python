@@ -3,22 +3,22 @@ window.SYSTEM_DATA = {
   player: "Zackkkkun",
   rank: "D-RANK · PYTHON DEVELOPER",
   level: 4,
-  xp: 1600,
+  xp: 1740,
   xpPerLevel: 500,
-  streakDays: 2,
-  studyMinutes: 20,
+  streakDays: 3,
+  studyMinutes: 55,
   goalHours: 170,
   attributes: {
-    PY: 12,
-    DEBUG: 5,
-    GIT: 6,
+    PY: 13,
+    DEBUG: 6,
+    GIT: 7,
     ARCH: 3,
     AI: 0
   },
   activeQuest: {
-    title: "Build Your Own System Engine (v0.1)",
-    file: "system-app/engine.py",
-    description: "Wire up parse_command() and craft_item() using Sets, Tuples, and Strings to unlock your playable RPG terminal.",
+    title: "Day 12: List & Dictionary Comprehensions",
+    file: "day-12/comprehensions.py",
+    description: "Master concise Pythonic list & dict transformations and filtering.",
     rewardXP: 150
   },
   badges: [
@@ -40,7 +40,7 @@ window.SYSTEM_DATA = {
       rank: "D-RANK",
       name: "Python Developer",
       status: "current",
-      topics: ["Dictionaries (Done)", "Sets (Done)", "Tuples & Strings (Active)", "Comprehensions", "Modules & venv", "File I/O (CSV/JSON)", "OOP", "pytest & Clean Code", "Boss: Personal Tracker"]
+      topics: ["Dictionaries (Done)", "Sets (Done)", "Tuples & Strings (Done)", "Comprehensions (Active)", "Modules & venv", "File I/O (CSV/JSON)", "OOP", "pytest & Clean Code", "Boss: Personal Tracker"]
     },
     {
       id: 3,
